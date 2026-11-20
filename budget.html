@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- NEW IN V13: Mobile Web App Meta Tags for iPhone/Android Home Screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#059669" />
+  <title>Family Finance Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* =========================================
+       1. NEW IN V13: EMERALD THEME & DARK MODE VARIABLES
+       Adjust --primary or --hero-start/end to change the green shade!
+       ========================================= */
+    :root {
+      --primary: #059669;         /* EveryDollar-style Emerald Green */
+      --primary-hover: #047857;
+      --primary-soft: #ecfdf5;
+      --primary-border: #a7f3d0;
+
+      --hero-start: #065f46;      /* Deep Forest Green */
+      --hero-end: #10b981;        /* Vibrant Emerald */
+
+      --bg: #f3f6f4;              /* Subtle mint-tinted off-white */
+      --card: #ffffff;
+      --surface: #f8faf9;
+      --border: #e2e8e5;
+      --text: #0f1f1a;
+      --muted: #5c7068;
+
+      --green: #10b981;
+      --green-bg: #d1fae5;
+      --green-text: #065f46;
+
+      --blue: #0ea5e9;
+      --blue-bg: #e0f2fe;
+      --blue-text: #075985;
+
+      --amber: #f59e0b;
+      --amber-bg: #fef3c7;
+      --amber-text: #92400e;
+
+      --purple: #8b5cf6;
+      --purple-bg: #ede9fe;
+      --purple-text: #5b21b6;
+
+      --red: #ef4444;
+      --red-bg: #fee2e2;
+      --red-text: #991b1b;
+
+      --shadow-sm: 0 2px 6px rgba(6, 78, 59, 0.05);
+      --shadow-md: 0 8px 24px rgba(6, 78, 59, 0.10);
+    }
+
+    /* Dark Mode Palette */
+    [data-theme="dark"] {
+      --primary: #10b981;
+      --primary-hover: #34d399;
+      --primary-soft: rgba(16, 185, 129, 0.14);
+      --primary-border: rgba(16, 185, 129, 0.35);
+
+      --hero-start: #064e3b;
+      --hero-end: #047857;
+
+      --bg: #0b1210;              /* Deep charcoal-emerald */
+      --card: #131f1c;
+      --surface: #192824;
+      --border: #243832;
+      --text: #ecf4f1;
+      --muted: #8da69d;
+
+      --green: #34d399;
+      --green-bg: rgba(16, 185, 129, 0.18);
+      --green-text: #6ee7b7;
+
+      --blue: #38bdf8;
+      --blue-bg: rgba(56, 189, 248, 0.16);
+      --blue-text: #7dd3fc;
+
+      --amber: #fbbf24;
+      --amber-bg: rgba(245, 158, 11, 0.18);
+      --amber-text: #fcd34d;
+
+      --purple: #a78bfa;
+      --purple-bg: rgba(139, 92, 246, 0.18);
+      --purple-text: #c4b5fd;
+
+      --red: #f87171;
+      --red-bg: rgba(239, 68, 68, 0.18);
+      --red-text: #fca5a5;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 24px 18px 70px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .container { max-width: 1120px; margin: 0 auto; }
+
+    /* Top App Header */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.28);
+      flex-shrink: 0;
+    }
+    .app-title {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 0;
+    }
+    .app-subtitle {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin: 1px 0 0;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Dark Mode Toggle Button */
+    .theme-toggle-btn {
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 13px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.15s;
+    }
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Human-Readable Month Switcher */
+    .month-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--card);
+      padding: 5px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .month-nav-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .month-nav-btn:hover {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .month-display-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 135px;
+      text-align: center;
+      user-select: none;
+    }
+    .today-btn {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--primary-border);
+      background: var(--primary-soft);
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Segmented Pill Navigation */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--card);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 22px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.28);
+    }
+
+    .section { display: none; }
+    .section.active { display: block; animation: fadeIn 0.22s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards & NEW Emerald Hero Card */
+    .card {
+      background: var(--card);
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, var(--hero-start) 0%, var(--hero-end) 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 20px;
+    }
+    .hero-card h2 {
+      color: #ffffff;
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+    .hero-income-input {
+      background: rgba(255, 255, 255, 0.16) !important;
+      border: 1px solid rgba(255, 255, 255, 0.32) !important;
+      color: #ffffff !important;
+      font-size: 16px !important;
+      font-weight: 600;
+      max-width: 320px;
+    }
+    .hero-income-input::placeholder { color: rgba(255, 255, 255, 0.72); }
+    .hero-income-input:focus {
+      background: rgba(255, 255, 255, 0.22) !important;
+      border-color: #ffffff !important;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .hero-stat {
+      background: rgba(255, 255, 255, 0.13);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 15px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .hero-stat-label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.82);
+    }
+    .hero-stat-value {
+      font-size: 26px;
+      font-weight: 800;
+      margin-top: 4px;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+    }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin: 0 0 14px;
+    }
+
+    /* Previous Month Leftover Banner inside Hero */
+    .leftover-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      padding: 11px 15px;
+      border-radius: 12px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    /* Standard Summary Boxes */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .stat-box {
+      background: var(--surface);
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .stat-label {
+      font-size: 11.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    .stat-value {
+      font-size: 25px;
+      font-weight: 800;
+      margin-top: 5px;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Fast-Track & Split Panels */
+    .fast-track-bar {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: -6px 0 14px;
+      padding: 9px 13px;
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    .fast-track-btn {
+      font-family: inherit;
+      padding: 6px 13px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .fast-track-btn:hover { background: var(--primary-hover); }
+
+    .split-panel {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .split-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .split-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Charts Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .chart-box { position: relative; height: 280px; width: 100%; }
+
+    /* 50/30/20 Progress Bars */
+    .bar-group { margin-bottom: 16px; }
+    .bar-group:last-child { margin-bottom: 0; }
+    .bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .bar-track {
+      background: var(--border);
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Spent vs. Remaining Progress Bars */
+    .mini-progress-wrap { min-width: 150px; }
+    .mini-progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+    .mini-bar-track {
+      background: var(--border);
+      height: 6px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .mini-bar-fill { height: 100%; border-radius: 999px; transition: width 0.3s ease; }
+    .text-over { color: var(--red); font-weight: 700; }
+    .text-ok { color: var(--muted); }
+
+    /* Drop Zone Containers */
+    .group-zone {
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 6px;
+      margin-top: 16px;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .group-zone.drag-over {
+      background-color: var(--primary-soft);
+      border: 2px dashed var(--primary);
+    }
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      margin-bottom: 8px;
+    }
+    .group-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .group-total {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Draggable Rows */
+    tr.draggable-row { cursor: grab; background: var(--card); transition: background-color 0.15s; }
+    tr.draggable-row:hover { background-color: var(--surface); }
+    tr.draggable-row:active { cursor: grabbing; }
+    tr.draggable-row.dragging { opacity: 0.4; }
+    .drag-handle { color: var(--muted); opacity: 0.45; font-size: 15px; margin-right: 8px; user-select: none; }
+    tr.draggable-row:hover .drag-handle { opacity: 1; }
+
+    .empty-drop-hint {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 16px;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      margin-top: 4px;
+    }
+
+    /* Compact Month Stepper inside Sinking Fund rows */
+    .fund-month-stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .fund-month-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fund-month-btn:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+    .fund-month-label { font-size: 13px; font-weight: 600; min-width: 115px; text-align: center; }
+
+    /* Forms, Inputs & Focus Rings */
+    .form-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; align-items: center; }
+    input, select {
+      font-family: inherit;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--surface);
+      flex: 1;
+      min-width: 115px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-soft);
+    }
+    .inline-input {
+      width: 98px;
+      padding: 7px 9px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      background: var(--card);
+    }
+    .link-select {
+      padding: 7px 9px;
+      font-size: 13px;
+      max-width: 155px;
+      background: var(--card);
+    }
+
+    /* Buttons */
+    button.action-btn {
+      font-family: inherit;
+      padding: 10px 18px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.22);
+      transition: background-color 0.15s, transform 0.1s;
+    }
+    button.action-btn:hover { background: var(--primary-hover); }
+    button.action-btn:active { transform: scale(0.98); }
+
+    button.secondary-btn {
+      font-family: inherit;
+      padding: 9px 14px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    button.secondary-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .pay-btn {
+      font-family: inherit;
+      padding: 6px 11px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    .pay-btn:hover { background: var(--primary-hover); }
+
+    .applied-tag {
+      display: inline-block;
+      padding: 5px 8px;
+      background: var(--green-bg);
+      color: var(--green-text);
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-left: 5px;
+    }
+    .undo-btn {
+      font-family: inherit;
+      padding: 5px 8px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+    .undo-btn:hover { color: var(--text); border-color: var(--muted); }
+
+    button.delete-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      opacity: 0.55;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      transition: all 0.15s;
+    }
+    button.delete-btn:hover { opacity: 1; color: var(--red); background: var(--red-bg); }
+
+    /* NEW IN V13: Swipeable Table Wrapper for Mobile */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 4px; min-width: 580px; }
+    th, td { text-align: left; padding: 11px 8px; border-bottom: 1px solid var(--border); }
+    th {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-need { background: var(--blue-bg); color: var(--blue-text); }
+    .badge-want { background: var(--amber-bg); color: var(--amber-text); }
+    .badge-savings { background: var(--green-bg); color: var(--green-text); }
+    .badge-pretax { background: var(--purple-bg); color: var(--purple-text); }
+    .badge-posttax { background: var(--green-bg); color: var(--green-text); }
+    .badge-split { background: var(--purple-bg); color: var(--purple-text); margin-left: 6px; font-size: 10px; }
+
+    .helper-text { color: var(--muted); font-size: 13px; margin: -8px 0 16px; }
+
+    /* =========================================
+       NEW IN V13: MOBILE RESPONSIVE STYLES
+       ========================================= */
+    @media (max-width: 720px) {
+      body { padding: 16px 12px 60px; }
+      .card, .hero-card { padding: 18px 16px; border-radius: 16px; }
+      .app-header { flex-direction: column; align-items: stretch; }
+      .header-controls { justify-content: space-between; }
+      .month-switcher { flex: 1; justify-content: space-between; }
+      .hero-stat-value, .stat-value { font-size: 22px; }
+      .form-row { flex-direction: column; align-items: stretch; }
+      .form-row input, .form-row select, .form-row button { width: 100%; max-width: none !important; }
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-header">
+      <div class="brand-wrap">
+        <div class="brand-icon">$</div>
+        <div>
+          <h1 class="app-title">Family Finance Hub</h1>
+          <p class="app-subtitle">Zero-Based Budget · 50/30/20 · Sinking Funds · Net Worth</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- NEW IN V13: Dark Mode Toggle -->
+        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Dark</button>
+
+        <div class="month-switcher">
+          <button class="month-nav-btn" onclick="stepMonth(-1)" title="Previous Month">◀</button>
+          <span id="monthDisplayText" class="month-display-text">November 2026</span>
+          <button class="month-nav-btn" onclick="stepMonth(1)" title="Next Month">▶</button>
+          <button id="todayBtn" class="today-btn" onclick="jumpToToday()" style="display: none;">Today</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('budget', this)">Budget</button>
+      <button class="tab-btn" onclick="switchTab('transactions', this)">Transactions</button>
+      <button class="tab-btn" onclick="switchTab('charts', this)">Charts</button>
+      <button class="tab-btn" onclick="switchTab('funds', this)">Sinking Funds</button>
+      <button class="tab-btn" onclick="switchTab('savings', this)">Monthly Savings</button>
+      <button class="tab-btn" onclick="switchTab('networth', this)">Net Worth</button>
+    </div>
+
+    <!-- =========================================
+         TAB 1: ZERO-BASED BUDGET & 50/30/20 RULE
+         ========================================= -->
+    <div id="budget" class="section active">
+      <!-- NEW IN V13: Emerald Gradient Hero Card -->
+      <div class="hero-card">
+        <h2>Monthly Take-Home Income · <span class="active-month-label"></span></h2>
+        <div class="form-row" style="margin-bottom: 0;">
+          <input type="number" id="monthlyIncome" class="hero-income-input" placeholder="Enter Monthly Take-Home Pay ($)" oninput="updateIncome()" />
+        </div>
+        <div class="hero-grid">
+          <div class="hero-stat">
+            <div class="hero-stat-label">Take-Home Income</div>
+            <div class="hero-stat-value" id="displayIncome">$0.00</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">Total Planned</div>
+            <div class="hero-stat-value" id="displayPlanned">$0.00</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">Left to Budget</div>
+            <div class="hero-stat-value" id="displayLeft">$0.00</div>
+          </div>
+        </div>
+        <div id="prevMonthLeftoverBanner" class="leftover-banner" style="display: none;"></div>
+      </div>
+
+      <!-- 50/30/20 Split Dashboard -->
+      <div class="card">
+        <h2>50 / 30 / 20 Breakdown</h2>
+        <div class="bar-group">
+          <div class="bar-header">
+            <span><strong>Needs</strong> <span style="color: var(--muted);">(Target: 50%)</span></span>
+            <span id="needStats">0% ($0.00)</span>
+          </div>
+          <div class="bar-track"><div id="needBar" class="bar-fill" style="width: 0%; background: var(--blue);"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-header">
+            <span><strong>Wants</strong> <span style="color: var(--muted);">(Target: 30%)</span></span>
+            <span id="wantStats">0% ($0.00)</span>
+          </div>
+          <div class="bar-track"><div id="wantBar" class="bar-fill" style="width: 0%; background: var(--amber);"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-header">
+            <span><strong>Savings & Debt Payoff</strong> <span style="color: var(--muted);">(Target: 20%)</span></span>
+            <span id="savingsStats">0% ($0.00)</span>
+          </div>
+          <div class="bar-track"><div id="savingsBar" class="bar-fill" style="width: 0%; background: var(--green);"></div></div>
+        </div>
+      </div>
+
+      <!-- Grouped Budget Categories -->
+      <div class="card">
+        <h2>Budget Categories (<span class="active-month-label"></span>)</h2>
+        <p class="helper-text">
+          On desktop, grab <strong>⋮⋮</strong> to drag items between groups. On mobile, swipe tables left/right to see all columns.
+        </p>
+        <div class="form-row">
+          <input type="text" id="itemName" placeholder="Item Name (e.g., Water Bill, Oil Change)" />
+          <input type="number" id="itemAmount" placeholder="Amount ($)" />
+          <select id="itemGroup">
+            <option value="Housing">Housing</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Food & Essentials">Food & Essentials</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Wants">Wants</option>
+            <option value="Savings & Debt">Savings & Debt</option>
+          </select>
+          <select id="itemBucket">
+            <option value="need">Need (50%)</option>
+            <option value="want">Want (30%)</option>
+            <option value="savings">Savings/Debt (20%)</option>
+          </select>
+          <button class="action-btn" onclick="addBudgetItem()">Add Item</button>
+        </div>
+
+        <div id="groupedBudgetContainer"></div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         TAB 2: TRANSACTIONS + FAST-TRACK + SPLIT + CSV IMPORT
+         ========================================= -->
+    <div id="transactions" class="section">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+          <h2 style="margin: 0;">Transactions (<span class="active-month-label"></span>)</h2>
+          <button id="toggleSplitBtn" class="secondary-btn" onclick="toggleSplitMode()">+ Split Purchase</button>
+        </div>
+        <p class="helper-text">
+          Log purchases below. When a merchant is recognized, a clickable <strong>Fast-Track</strong> suggestion appears.
+        </p>
+
+        <div class="summary-grid" style="margin-bottom: 20px;">
+          <div class="stat-box">
+            <div class="stat-label">Total Planned</div>
+            <div class="stat-value" id="txTotalPlanned">$0.00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Total Spent</div>
+            <div class="stat-value" style="color: var(--primary);" id="txTotalSpent">$0.00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Total Remaining</div>
+            <div class="stat-value" id="txTotalRemaining">$0.00</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <input type="date" id="txDate" />
+          <input type="text" id="txMerchant" placeholder="Merchant / Note (e.g., Kroger, Costco)" oninput="checkFastTrack()" />
+          <select id="txCategory" class="single-only"></select>
+          <input type="number" step="0.01" id="txAmount" class="single-only" placeholder="Amount ($)" />
+          <button id="logTxBtn" class="action-btn single-only" onclick="addTransaction()">Log Purchase</button>
+        </div>
+
+        <div id="fastTrackBar" class="fast-track-bar">
+          <span>⚡ Seen this merchant before:</span>
+          <button id="fastTrackBtn" class="fast-track-btn" onclick="applyFastTrack()">Use Category</button>
+        </div>
+
+        <div id="splitPanel" class="split-panel">
+          <div class="split-panel-header">
+            <span>Split Purchase Across Multiple Categories</span>
+            <span>Split Total: <strong id="splitTotalDisplay" style="color: var(--primary);">$0.00</strong></span>
+          </div>
+          <div id="splitRowsContainer"></div>
+          <div style="display: flex; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 10px;">
+            <button class="secondary-btn" onclick="addSplitRow()">+ Add Another Category</button>
+            <button class="action-btn" onclick="saveSplitTransaction()">Log Split Purchase</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Merchant / Note</th>
+                <th>Budget Category</th>
+                <th>Amount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="txTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>CSV Bank Import & Data Backup</h2>
+        <p class="helper-text">
+          Upload a bank <code>.csv</code> file (Date, Merchant, Amount) to test bulk-importing, or export a backup of your budget.
+        </p>
+        <div class="form-row" style="margin-bottom: 12px;">
+          <input type="file" id="csvFileInput" accept=".csv" />
+          <select id="csvDefaultCategory" title="Default category for imported rows"></select>
+          <button class="action-btn" onclick="importCsvTransactions()">Import CSV</button>
+          <button class="secondary-btn" onclick="downloadSampleCsv()">Download Sample CSV</button>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--border);">
+          <button class="secondary-btn" onclick="exportBackupJson()">Export Backup (.json)</button>
+          <button class="secondary-btn" onclick="document.getElementById('jsonRestoreInput').click()">Restore Backup (.json)</button>
+          <input type="file" id="jsonRestoreInput" accept=".json" style="display: none;" onchange="restoreBackupJson(event)" />
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         TAB 3: INTERACTIVE CHARTS
+         ========================================= -->
+    <div id="charts" class="section">
+      <div class="charts-grid">
+        <div class="card" style="margin-bottom: 0;">
+          <h2>50 / 30 / 20 Split (<span class="active-month-label"></span>)</h2>
+          <p class="helper-text">Tap or hover over any slice to see exact planned amounts.</p>
+          <div class="chart-box">
+            <canvas id="bucketChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 0;">
+          <h2>Planned vs. Actual by Group (<span class="active-month-label"></span>)</h2>
+          <p class="helper-text">Compare your monthly plan against logged transactions.</p>
+          <div class="chart-box">
+            <canvas id="groupCompareChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         TAB 4: AUTO-CALCULATED SINKING FUNDS
+         ========================================= -->
+    <div id="funds" class="section">
+      <div class="card">
+        <h2>Stuff We Are Saving For</h2>
+        <p class="helper-text">
+          Shared across all months. Pick a target month and year—the monthly amount calculates automatically.
+        </p>
+        <div class="form-row">
+          <input type="text" id="fundName" placeholder="New Fund Name" />
+          <input type="number" id="fundGoal" placeholder="Target Goal ($)" />
+          <input type="number" id="fundSaved" placeholder="Already Saved ($)" value="0" />
+          <select id="fundMonth">
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12" selected>December</option>
+          </select>
+          <select id="fundYear" style="max-width: 110px;">
+            <option value="2026">2026</option>
+            <option value="2027" selected>2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+            <option value="2031">2031</option>
+            <option value="2032">2032</option>
+          </select>
+          <button class="action-btn" onclick="addSinkingFund()">Add Fund</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fund Name</th>
+                <th>Saved ($)</th>
+                <th>Goal ($)</th>
+                <th>Target Month</th>
+                <th>Monthly Needed</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="fundsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         TAB 5: TRUE MONTHLY SAVINGS TRACKER
+         ========================================= -->
+    <div id="savings" class="section">
+      <div class="card">
+        <h2>True Monthly Savings</h2>
+        <p class="helper-text">
+          Track both money saved automatically from your paycheck and money transferred from take-home pay (like Fidelity SGOV).
+        </p>
+        <div class="summary-grid" style="margin-bottom: 20px;">
+          <div class="stat-box">
+            <div class="stat-label">From Job (Pre-Tax)</div>
+            <div class="stat-value" style="color: var(--purple);" id="totalPreTaxSavings">$0.00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">From Take-Home Pay</div>
+            <div class="stat-value" style="color: var(--green);" id="totalPostTaxSavings">$0.00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Total Saved / Month</div>
+            <div class="stat-value" style="color: var(--primary);" id="totalAllSavings">$0.00</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <input type="text" id="savName" placeholder="Account / Destination (e.g., Roth IRA, 529)" />
+          <input type="number" id="savAmount" placeholder="Monthly Amount ($)" />
+          <select id="savSource">
+            <option value="pretax">From Job (Pre-Tax / Payroll)</option>
+            <option value="posttax">From Take-Home Pay</option>
+          </select>
+          <button class="action-btn" onclick="addSavingsStream()">Add</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Destination / Purpose</th>
+                <th>Source</th>
+                <th>Monthly Amount ($)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="savingsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         TAB 6: NET WORTH CALCULATOR + CHARTS
+         ========================================= -->
+    <div id="networth" class="section">
+      <div class="charts-grid">
+        <div class="card" style="margin-bottom: 0;">
+          <h2>Net Worth Over Time</h2>
+          <p class="helper-text">Saves a snapshot for each month automatically as you update balances.</p>
+          <div class="chart-box">
+            <canvas id="nwHistoryChartCanvas"></canvas>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom: 0;">
+          <h2>Assets vs. Liabilities</h2>
+          <p class="helper-text">Visual breakdown of what you own versus what you owe.</p>
+          <div class="chart-box">
+            <canvas id="nwSplitChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Net Worth Accounts</h2>
+        <div class="summary-grid" style="margin-bottom: 20px;">
+          <div class="stat-box">
+            <div class="stat-label">Total Assets</div>
+            <div class="stat-value" style="color: var(--green);" id="totalAssets">$0.00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Total Liabilities</div>
+            <div class="stat-value" style="color: var(--red);" id="totalLiabilities">$0.00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Net Worth</div>
+            <div class="stat-value" id="totalNetWorth">$0.00</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <input type="text" id="nwName" placeholder="Account (e.g., Car Loan, Mortgage, Home Value)" />
+          <input type="number" id="nwAmount" placeholder="Current Balance ($)" />
+          <select id="nwType">
+            <option value="asset">Asset (What you own)</option>
+            <option value="liability">Liability (What you owe)</option>
+          </select>
+          <button class="action-btn" onclick="addNetWorthItem()">Add</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Current Balance ($)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="nwTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       2. LOGIC (JAVASCRIPT)
+       ========================================= -->
+  <script>
+    const GROUP_ORDER = [
+      "Housing",
+      "Transportation",
+      "Food & Essentials",
+      "Insurance",
+      "Wants",
+      "Savings & Debt"
+    ];
+
+    let chartInstances = {
+      bucket: null,
+      groupCompare: null,
+      nwHistory: null,
+      nwSplit: null
+    };
+
+    let currentFastTrackCatId = null;
+    let isSplitMode = false;
+
+    // --- NEW IN V13: DARK MODE THEME LOGIC ---
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("familyFinanceTheme", theme);
+      const btn = document.getElementById("themeToggleBtn");
+      if (btn) btn.innerText = theme === "dark" ? "☀️ Light" : "🌙 Dark";
+      renderCharts(); // Re-color charts to match dark/light mode
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      applyTheme(current === "dark" ? "light" : "dark");
+    }
+
+    function getRealCurrentMonthKey() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function getDefaultBudgetItems() {
+      return [
+        { id: 1,  group: "Housing",           name: "Mortgage",                   amount: 0, bucket: "need", linkedNwId: null },
+        { id: 2,  group: "Housing",           name: "Homeowners Insurance",       amount: 0, bucket: "need", linkedNwId: null },
+        { id: 3,  group: "Housing",           name: "Homeowners Taxes",           amount: 0, bucket: "need", linkedNwId: null },
+        { id: 4,  group: "Housing",           name: "Utilities",                  amount: 0, bucket: "need", linkedNwId: null },
+        { id: 5,  group: "Housing",           name: "Internet",                   amount: 0, bucket: "need", linkedNwId: null },
+        { id: 6,  group: "Transportation",    name: "Gas for Vehicles",           amount: 0, bucket: "need", linkedNwId: null },
+        { id: 7,  group: "Transportation",    name: "Car Maintenance & Repairs",  amount: 0, bucket: "need", linkedNwId: null },
+        { id: 8,  group: "Transportation",    name: "Car Insurance",              amount: 0, bucket: "need", linkedNwId: null },
+        { id: 9,  group: "Transportation",    name: "Car Loan (Optional)",        amount: 0, bucket: "need", linkedNwId: null },
+        { id: 10, group: "Food & Essentials", name: "Groceries",                  amount: 0, bucket: "need", linkedNwId: null },
+        { id: 11, group: "Food & Essentials", name: "Phone",                      amount: 0, bucket: "need", linkedNwId: null },
+        { id: 12, group: "Insurance",         name: "Life Insurance",             amount: 0, bucket: "need", linkedNwId: null }
+      ];
+    }
+
+    function loadAndMigrateData() {
+      const currentMonth = getRealCurrentMonthKey();
+      const raw = JSON.parse(localStorage.getItem("familyFinanceData_v3"));
+
+      if (!raw) {
+        return {
+          activeMonth: currentMonth,
+          months: {
+            [currentMonth]: {
+              income: 0,
+              budgetItems: getDefaultBudgetItems(),
+              transactions: []
+            }
+          },
+          sinkingFunds: [
+            { id: 101, name: "Christmas",     goal: 1000, saved: 0, targetDate: "2026-12" },
+            { id: 102, name: "Vacation",      goal: 3000, saved: 0, targetDate: "2027-07" },
+            { id: 103, name: "Spare Savings", goal: 2000, saved: 0, targetDate: "2027-06" },
+            { id: 104, name: "The Kids",      goal: 1500, saved: 0, targetDate: "2027-08" }
+          ],
+          savingsStreams: [
+            { id: 201, name: "Job Retirement (Pre-Tax Payroll)",               amount: 0, source: "pretax" },
+            { id: 202, name: "Fidelity SGOV (Emergency Fund)",                 amount: 0, source: "posttax" },
+            { id: 203, name: "Fidelity SGOV (Home & Car Insurance Reserve)",   amount: 0, source: "posttax" }
+          ],
+          netWorthItems: [],
+          netWorthHistory: {},
+          merchantRules: {}
+        };
+      }
+
+      if (raw.months) {
+        if (!raw.activeMonth) raw.activeMonth = currentMonth;
+        if (!raw.netWorthHistory) raw.netWorthHistory = {};
+        if (!raw.merchantRules) raw.merchantRules = {};
+        return raw;
+      }
+
+      return {
+        activeMonth: currentMonth,
+        months: {
+          [currentMonth]: {
+            income: raw.income || 0,
+            budgetItems: raw.budgetItems || getDefaultBudgetItems(),
+            transactions: raw.transactions || []
+          }
+        },
+        sinkingFunds: raw.sinkingFunds || [],
+        savingsStreams: raw.savingsStreams || [],
+        netWorthItems: raw.netWorthItems || [],
+        netWorthHistory: {},
+        merchantRules: {}
+      };
+    }
+
+    let appData = loadAndMigrateData();
+    let draggedItemId = null;
+
+    function getActiveMonthData() {
+      const key = appData.activeMonth;
+      if (!appData.months[key]) {
+        const existingKeys = Object.keys(appData.months).sort();
+        const templateKey = existingKeys[existingKeys.length - 1];
+        const template = templateKey ? appData.months[templateKey] : null;
+
+        appData.months[key] = {
+          income: template ? template.income : 0,
+          budgetItems: template
+            ? template.budgetItems.map(item => ({
+                ...item,
+                lastAppliedMonth: null,
+                lastAppliedAmount: 0
+              }))
+            : getDefaultBudgetItems(),
+          transactions: []
+        };
+      }
+      return appData.months[key];
+    }
+
+    function getPreviousMonthKey(monthKey) {
+      const [year, month] = monthKey.split("-").map(Number);
+      const date = new Date(year, month - 2, 1);
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function switchMonth(monthKey) {
+      if (!monthKey) return;
+      appData.activeMonth = monthKey;
+      getActiveMonthData();
+      updateDefaultTxDate();
+      saveData();
+    }
+
+    function stepMonth(delta) {
+      const [year, month] = appData.activeMonth.split("-").map(Number);
+      const date = new Date(year, month - 1 + delta, 1);
+      const nextKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+      switchMonth(nextKey);
+    }
+
+    function jumpToToday() { switchMonth(getRealCurrentMonthKey()); }
+
+    function formatMonthLabel(monthKey) {
+      if (!monthKey || !monthKey.includes("-")) return "Select Month";
+      const [year, month] = monthKey.split("-").map(Number);
+      const date = new Date(year, month - 1, 1);
+      return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    }
+
+    function formatShortMonthLabel(monthKey) {
+      const [year, month] = monthKey.split("-").map(Number);
+      const date = new Date(year, month - 1, 1);
+      return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    }
+
+    function updateDefaultTxDate() {
+      const now = new Date();
+      const realMonth = getRealCurrentMonthKey();
+      if (appData.activeMonth === realMonth) {
+        document.getElementById("txDate").value =
+          `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      } else {
+        document.getElementById("txDate").value = `${appData.activeMonth}-01`;
+      }
+    }
+
+    function recordNetWorthSnapshot() {
+      let assets = 0, liabilities = 0;
+      appData.netWorthItems.forEach(item => {
+        if (item.type === "asset") assets += item.amount;
+        else liabilities += item.amount;
+      });
+      if (appData.netWorthItems.length > 0) {
+        appData.netWorthHistory[appData.activeMonth] = assets - liabilities;
+      }
+    }
+
+    function saveData() {
+      recordNetWorthSnapshot();
+      localStorage.setItem("familyFinanceData_v3", JSON.stringify(appData));
+      renderAll();
+    }
+
+    function formatMoney(num) {
+      return "$" + Number(num || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function switchTab(tabId, btnElement) {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      btnElement.classList.add("active");
+      if (tabId === "charts" || tabId === "networth") renderCharts();
+    }
+
+    // --- DRAG AND DROP HANDLERS ---
+    function handleDragStart(event, itemId) {
+      draggedItemId = itemId;
+      event.dataTransfer.effectAllowed = "move";
+      event.target.classList.add("dragging");
+    }
+    function handleDragEnd(event) {
+      event.target.classList.remove("dragging");
+      document.querySelectorAll(".group-zone").forEach(zone => zone.classList.remove("drag-over"));
+    }
+    function handleDragOver(event, zoneElement) {
+      event.preventDefault();
+      zoneElement.classList.add("drag-over");
+    }
+    function handleDragLeave(zoneElement) {
+      zoneElement.classList.remove("drag-over");
+    }
+    function handleDrop(event, targetGroupName, zoneElement) {
+      event.preventDefault();
+      zoneElement.classList.remove("drag-over");
+      if (draggedItemId !== null) {
+        const monthData = getActiveMonthData();
+        const item = monthData.budgetItems.find(i => i.id === draggedItemId);
+        if (item && item.group !== targetGroupName) {
+          item.group = targetGroupName;
+          saveData();
+        }
+        draggedItemId = null;
+      }
+    }
+
+    // --- LINK BUDGET ITEM TO NET WORTH + MONTHLY GUARDRAIL ---
+    function linkBudgetToNetWorth(budgetId, nwIdValue) {
+      const monthData = getActiveMonthData();
+      const item = monthData.budgetItems.find(i => i.id === budgetId);
+      if (item) {
+        item.linkedNwId = nwIdValue ? Number(nwIdValue) : null;
+        saveData();
+      }
+    }
+
+    function applyPaymentToNetWorth(budgetId) {
+      const monthData = getActiveMonthData();
+      const budgetItem = monthData.budgetItems.find(i => i.id === budgetId);
+      if (!budgetItem || !budgetItem.linkedNwId) return;
+
+      const activeMonth = appData.activeMonth;
+      if (budgetItem.lastAppliedMonth === activeMonth) {
+        return alert("This payment has already been applied for this month!");
+      }
+
+      const nwItem = appData.netWorthItems.find(nw => nw.id === budgetItem.linkedNwId);
+      if (!nwItem) return alert("The linked Net Worth account was not found.");
+      if (budgetItem.amount <= 0) return alert("Enter a planned amount greater than $0 first.");
+
+      let appliedAmount = budgetItem.amount;
+      if (nwItem.type === "liability") {
+        appliedAmount = Math.min(nwItem.amount, budgetItem.amount);
+        nwItem.amount = nwItem.amount - appliedAmount;
+      } else {
+        nwItem.amount += appliedAmount;
+      }
+
+      budgetItem.lastAppliedMonth = activeMonth;
+      budgetItem.lastAppliedAmount = appliedAmount;
+      saveData();
+    }
+
+    function undoPaymentFromNetWorth(budgetId) {
+      const monthData = getActiveMonthData();
+      const budgetItem = monthData.budgetItems.find(i => i.id === budgetId);
+      if (!budgetItem || !budgetItem.linkedNwId) return;
+
+      const nwItem = appData.netWorthItems.find(nw => nw.id === budgetItem.linkedNwId);
+      if (nwItem && budgetItem.lastAppliedAmount) {
+        if (nwItem.type === "liability") {
+          nwItem.amount += budgetItem.lastAppliedAmount;
+        } else {
+          nwItem.amount = Math.max(0, nwItem.amount - budgetItem.lastAppliedAmount);
+        }
+      }
+
+      budgetItem.lastAppliedMonth = null;
+      budgetItem.lastAppliedAmount = 0;
+      saveData();
+    }
+
+    // --- TAB 1: BUDGET FUNCTIONS ---
+    function updateIncome() {
+      const monthData = getActiveMonthData();
+      monthData.income = parseFloat(document.getElementById("monthlyIncome").value) || 0;
+      saveData();
+    }
+
+    function addBudgetItem() {
+      const name = document.getElementById("itemName").value.trim();
+      const amount = parseFloat(document.getElementById("itemAmount").value) || 0;
+      const group = document.getElementById("itemGroup").value;
+      const bucket = document.getElementById("itemBucket").value;
+      if (!name) return alert("Please enter an item name.");
+
+      const monthData = getActiveMonthData();
+      monthData.budgetItems.push({
+        id: Date.now(), group, name, amount, bucket,
+        linkedNwId: null, lastAppliedMonth: null, lastAppliedAmount: 0
+      });
+      document.getElementById("itemName").value = "";
+      document.getElementById("itemAmount").value = "";
+      saveData();
+    }
+
+    function updateBudgetAmount(id, newValue) {
+      const monthData = getActiveMonthData();
+      const item = monthData.budgetItems.find(i => i.id === id);
+      if (item) {
+        item.amount = parseFloat(newValue) || 0;
+        saveData();
+      }
+    }
+
+    function deleteBudgetItem(id) {
+      const monthData = getActiveMonthData();
+      monthData.budgetItems = monthData.budgetItems.filter(item => item.id !== id);
+      saveData();
+    }
+
+    // --- CLICKABLE FAST-TRACK SUGGESTION ---
+    function checkFastTrack() {
+      const bar = document.getElementById("fastTrackBar");
+      if (isSplitMode) { bar.style.display = "none"; return; }
+
+      const merchantKey = document.getElementById("txMerchant").value.trim().toLowerCase();
+      const suggestedCatId = appData.merchantRules[merchantKey];
+      const monthData = getActiveMonthData();
+      const cat = monthData.budgetItems.find(i => i.id === suggestedCatId);
+
+      if (merchantKey && cat) {
+        currentFastTrackCatId = cat.id;
+        document.getElementById("fastTrackBtn").innerText = `Fast-Track: ${cat.name} (${cat.group})`;
+        bar.style.display = "flex";
+      } else {
+        currentFastTrackCatId = null;
+        bar.style.display = "none";
+      }
+    }
+
+    function applyFastTrack() {
+      if (currentFastTrackCatId !== null) {
+        document.getElementById("txCategory").value = currentFastTrackCatId;
+        document.getElementById("fastTrackBar").style.display = "none";
+      }
+    }
+
+    // --- SPLIT TRANSACTION FUNCTIONS ---
+    function toggleSplitMode() {
+      isSplitMode = !isSplitMode;
+      document.querySelectorAll(".single-only").forEach(el => el.style.display = isSplitMode ? "none" : "");
+      document.getElementById("splitPanel").style.display = isSplitMode ? "block" : "none";
+      document.getElementById("toggleSplitBtn").innerText = isSplitMode ? "Cancel Split" : "+ Split Purchase";
+      document.getElementById("fastTrackBar").style.display = "none";
+
+      if (isSplitMode) {
+        const container = document.getElementById("splitRowsContainer");
+        container.innerHTML = "";
+        addSplitRow();
+        addSplitRow();
+        updateSplitTotal();
+      }
+    }
+
+    function addSplitRow() {
+      const monthData = getActiveMonthData();
+      const optionsHtml = monthData.budgetItems
+        .map(item => `<option value="${item.id}">${item.group} — ${item.name}</option>`)
+        .join("");
+
+      const row = document.createElement("div");
+      row.className = "split-row";
+      row.innerHTML = `
+        <select class="split-cat">${optionsHtml}</select>
+        <input type="number" step="0.01" class="split-amt" placeholder="Split Amount ($)" oninput="updateSplitTotal()" style="max-width: 160px;" />
+        <button class="delete-btn" onclick="this.parentElement.remove(); updateSplitTotal();" title="Remove line">✕</button>
+      `;
+      document.getElementById("splitRowsContainer").appendChild(row);
+    }
+
+    function updateSplitTotal() {
+      let total = 0;
+      document.querySelectorAll(".split-amt").forEach(input => { total += parseFloat(input.value) || 0; });
+      document.getElementById("splitTotalDisplay").innerText = formatMoney(total);
+    }
+
+    function saveSplitTransaction() {
+      const date = document.getElementById("txDate").value || `${appData.activeMonth}-01`;
+      const merchant = document.getElementById("txMerchant").value.trim();
+      if (!merchant) return alert("Please enter a Merchant / Note for this split purchase.");
+
+      const splits = [];
+      document.querySelectorAll(".split-row").forEach(row => {
+        const catId = Number(row.querySelector(".split-cat").value);
+        const amt = parseFloat(row.querySelector(".split-amt").value);
+        if (!isNaN(amt) && amt > 0) splits.push({ budgetItemId: catId, amount: amt });
+      });
+
+      if (splits.length < 2) return alert("Enter valid dollar amounts for at least 2 categories.");
+
+      const monthData = getActiveMonthData();
+      const baseId = Date.now();
+      splits.forEach((s, idx) => {
+        monthData.transactions.push({
+          id: baseId + idx, date, merchant,
+          budgetItemId: s.budgetItemId, amount: s.amount, isSplit: true
+        });
+      });
+
+      document.getElementById("txMerchant").value = "";
+      toggleSplitMode();
+      saveData();
+    }
+
+    // --- STANDARD TRANSACTION FUNCTIONS ---
+    function addTransaction() {
+      const date = document.getElementById("txDate").value || `${appData.activeMonth}-01`;
+      const merchant = document.getElementById("txMerchant").value.trim();
+      const budgetItemId = Number(document.getElementById("txCategory").value);
+      const amount = parseFloat(document.getElementById("txAmount").value);
+
+      if (!merchant || isNaN(amount) || amount <= 0) {
+        return alert("Please enter a merchant/note and a valid dollar amount.");
+      }
+
+      const monthData = getActiveMonthData();
+      monthData.transactions.push({ id: Date.now(), date, merchant, budgetItemId, amount, isSplit: false });
+      appData.merchantRules[merchant.toLowerCase()] = budgetItemId;
+
+      document.getElementById("txMerchant").value = "";
+      document.getElementById("txAmount").value = "";
+      document.getElementById("fastTrackBar").style.display = "none";
+      saveData();
+    }
+
+    function updateTransactionCategory(txId, newBudgetItemId) {
+      const monthData = getActiveMonthData();
+      const tx = monthData.transactions.find(t => t.id === txId);
+      if (tx) {
+        tx.budgetItemId = Number(newBudgetItemId);
+        if (tx.merchant) appData.merchantRules[tx.merchant.toLowerCase()] = tx.budgetItemId;
+        saveData();
+      }
+    }
+
+    function deleteTransaction(id) {
+      const monthData = getActiveMonthData();
+      monthData.transactions = monthData.transactions.filter(t => t.id !== id);
+      saveData();
+    }
+
+    function getSpentForCategory(monthData, budgetItemId) {
+      return monthData.transactions
+        .filter(t => t.budgetItemId === budgetItemId)
+        .reduce((sum, t) => sum + t.amount, 0);
+    }
+
+    // --- CSV IMPORT & JSON BACKUP ---
+    function parseCsvLine(line) {
+      const result = [];
+      let current = "", inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') inQuotes = !inQuotes;
+        else if (ch === "," && !inQuotes) { result.push(current.trim()); current = ""; }
+        else current += ch;
+      }
+      result.push(current.trim());
+      return result;
+    }
+
+    function normalizeDate(rawDate) {
+      if (!rawDate) return `${appData.activeMonth}-01`;
+      if (rawDate.includes("/")) {
+        const parts = rawDate.split("/");
+        if (parts.length === 3) {
+          const year = parts[2].length === 2 ? "20" + parts[2] : parts[2];
+          return `${year}-${parts[0].padStart(2, "0")}-${parts[1].padStart(2, "0")}`;
+        }
+      }
+      return rawDate;
+    }
+
+    function importCsvTransactions() {
+      const fileInput = document.getElementById("csvFileInput");
+      const file = fileInput.files[0];
+      if (!file) return alert("Choose a .csv file first (or click 'Download Sample CSV' to test).");
+
+      const defaultCatId = Number(document.getElementById("csvDefaultCategory").value);
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const lines = e.target.result.split(/\r?\n/).filter(line => line.trim() !== "");
+        const monthData = getActiveMonthData();
+        let importedCount = 0;
+
+        lines.forEach((line, index) => {
+          const cols = parseCsvLine(line);
+          if (cols.length < 3) return;
+          const amount = Math.abs(parseFloat(cols[2].replace(/[$,]/g, "")));
+          if (index === 0 && isNaN(amount)) return;
+          if (isNaN(amount) || amount <= 0) return;
+
+          monthData.transactions.push({
+            id: Date.now() + index,
+            date: normalizeDate(cols[0]),
+            merchant: cols[1] || "Imported Purchase",
+            budgetItemId: defaultCatId,
+            amount,
+            isSplit: false
+          });
+          importedCount++;
+        });
+
+        fileInput.value = "";
+        saveData();
+        alert(`Imported ${importedCount} transactions into ${formatMonthLabel(appData.activeMonth)}!`);
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadSampleCsv() {
+      const ym = appData.activeMonth;
+      const sample = [
+        "Date,Merchant,Amount",
+        `${ym}-03,Kroger,142.35`,
+        `${ym}-05,Shell Gas Station,48.20`,
+        `${ym}-08,"Target, Inc.",86.50`,
+        `${ym}-12,Electric Company,165.00`
+      ].join("\n");
+      const blob = new Blob([sample], { type: "text/csv" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `sample-bank-${ym}.csv`;
+      link.click();
+    }
+
+    function exportBackupJson() {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `family-finance-backup-${getRealCurrentMonthKey()}.json`;
+      link.click();
+    }
+
+    function restoreBackupJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!parsed.months) return alert("That file does not look like a valid backup.");
+          appData = parsed;
+          saveData();
+          alert("Backup restored successfully!");
+        } catch (err) { alert("Could not read that backup file."); }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    // --- SINKING FUNDS, MONTHLY SAVINGS & NET WORTH ---
+    function addSinkingFund() {
+      const name = document.getElementById("fundName").value.trim();
+      const goal = parseFloat(document.getElementById("fundGoal").value) || 0;
+      const saved = parseFloat(document.getElementById("fundSaved").value) || 0;
+      const targetDate = `${document.getElementById("fundYear").value}-${document.getElementById("fundMonth").value}`;
+      if (!name) return alert("Please enter a fund name.");
+
+      appData.sinkingFunds.push({ id: Date.now(), name, goal, saved, targetDate });
+      document.getElementById("fundName").value = "";
+      document.getElementById("fundGoal").value = "";
+      document.getElementById("fundSaved").value = "0";
+      saveData();
+    }
+
+    function updateFundField(id, field, newValue) {
+      const fund = appData.sinkingFunds.find(f => f.id === id);
+      if (fund) { fund[field] = parseFloat(newValue) || 0; saveData(); }
+    }
+
+    function stepFundMonth(id, delta) {
+      const fund = appData.sinkingFunds.find(f => f.id === id);
+      if (!fund) return;
+      const [year, month] = (fund.targetDate || getRealCurrentMonthKey()).split("-").map(Number);
+      const date = new Date(year, month - 1 + delta, 1);
+      fund.targetDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+      saveData();
+    }
+
+    function deleteSinkingFund(id) {
+      appData.sinkingFunds = appData.sinkingFunds.filter(f => f.id !== id);
+      saveData();
+    }
+
+    function calculateMonthlyFundNeed(goal, saved, targetDateStr) {
+      const remaining = Math.max(0, goal - saved);
+      if (remaining === 0 || !targetDateStr) return 0;
+      const today = new Date();
+      const [year, month] = targetDateStr.split("-").map(Number);
+      const monthsLeft = (year - today.getFullYear()) * 12 + (month - (today.getMonth() + 1));
+      return monthsLeft <= 1 ? remaining : remaining / monthsLeft;
+    }
+
+    function addSavingsStream() {
+      const name = document.getElementById("savName").value.trim();
+      const amount = parseFloat(document.getElementById("savAmount").value) || 0;
+      const source = document.getElementById("savSource").value;
+      if (!name) return alert("Please enter a savings destination.");
+      appData.savingsStreams.push({ id: Date.now(), name, amount, source });
+      document.getElementById("savName").value = "";
+      document.getElementById("savAmount").value = "";
+      saveData();
+    }
+
+    function updateSavingsAmount(id, newValue) {
+      const stream = appData.savingsStreams.find(s => s.id === id);
+      if (stream) { stream.amount = parseFloat(newValue) || 0; saveData(); }
+    }
+
+    function deleteSavingsStream(id) {
+      appData.savingsStreams = appData.savingsStreams.filter(s => s.id !== id);
+      saveData();
+    }
+
+    function addNetWorthItem() {
+      const name = document.getElementById("nwName").value.trim();
+      const amount = parseFloat(document.getElementById("nwAmount").value);
+      const type = document.getElementById("nwType").value;
+      if (!name || isNaN(amount)) return alert("Please enter an account name and balance.");
+      appData.netWorthItems.push({ id: Date.now(), name, amount, type });
+      document.getElementById("nwName").value = "";
+      document.getElementById("nwAmount").value = "";
+      saveData();
+    }
+
+    function updateNetWorthAmount(id, newValue) {
+      const item = appData.netWorthItems.find(i => i.id === id);
+      if (item) { item.amount = parseFloat(newValue) || 0; saveData(); }
+    }
+
+    function deleteNetWorthItem(id) {
+      Object.values(appData.months).forEach(m => {
+        m.budgetItems.forEach(b => {
+          if (b.linkedNwId === id) {
+            b.linkedNwId = null; b.lastAppliedMonth = null; b.lastAppliedAmount = 0;
+          }
+        });
+      });
+      appData.netWorthItems = appData.netWorthItems.filter(item => item.id !== id);
+      saveData();
+    }
+
+    // --- THEME-AWARE INTERACTIVE CHARTS ---
+    function renderCharts() {
+      if (typeof Chart === "undefined") return;
+
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const textColor = isDark ? "#cbd5e1" : "#475569";
+      const gridColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.06)";
+      const borderColor = isDark ? "#131f1c" : "#ffffff";
+
+      const monthData = getActiveMonthData();
+
+      let needs = 0, wants = 0, savings = 0;
+      monthData.budgetItems.forEach(item => {
+        if (item.bucket === "need") needs += item.amount;
+        if (item.bucket === "want") wants += item.amount;
+        if (item.bucket === "savings") savings += item.amount;
+      });
+
+      if (chartInstances.bucket) chartInstances.bucket.destroy();
+      chartInstances.bucket = new Chart(document.getElementById("bucketChartCanvas"), {
+        type: "doughnut",
+        data: {
+          labels: ["Needs (50%)", "Wants (30%)", "Savings & Debt (20%)"],
+          datasets: [{
+            data: [needs, wants, savings],
+            backgroundColor: ["#0ea5e9", "#f59e0b", "#10b981"],
+            borderWidth: 2,
+            borderColor
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "64%",
+          plugins: {
+            legend: { position: "bottom", labels: { color: textColor } },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${formatMoney(ctx.raw)}` } }
+          }
+        }
+      });
+
+      const plannedByGroup = GROUP_ORDER.map(g =>
+        monthData.budgetItems.filter(i => i.group === g).reduce((sum, i) => sum + i.amount, 0)
+      );
+      const actualByGroup = GROUP_ORDER.map(g =>
+        monthData.budgetItems
+          .filter(i => i.group === g)
+          .reduce((sum, i) => sum + getSpentForCategory(monthData, i.id), 0)
+      );
+
+      if (chartInstances.groupCompare) chartInstances.groupCompare.destroy();
+      chartInstances.groupCompare = new Chart(document.getElementById("groupCompareChartCanvas"), {
+        type: "bar",
+        data: {
+          labels: GROUP_ORDER,
+          datasets: [
+            { label: "Planned", data: plannedByGroup, backgroundColor: isDark ? "#1e3a32" : "#a7f3d0", borderRadius: 6 },
+            { label: "Actual Spent", data: actualByGroup, backgroundColor: "#059669", borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom", labels: { color: textColor } },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${formatMoney(ctx.raw)}` } }
+          },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { display: false } },
+            y: {
+              beginAtZero: true,
+              ticks: { color: textColor, callback: val => "$" + val.toLocaleString() },
+              grid: { color: gridColor }
+            }
+          }
+        }
+      });
+
+      const historyKeys = Object.keys(appData.netWorthHistory).sort();
+      const historyLabels = historyKeys.map(k => formatShortMonthLabel(k));
+      const historyValues = historyKeys.map(k => appData.netWorthHistory[k]);
+
+      if (chartInstances.nwHistory) chartInstances.nwHistory.destroy();
+      chartInstances.nwHistory = new Chart(document.getElementById("nwHistoryChartCanvas"), {
+        type: "line",
+        data: {
+          labels: historyLabels.length ? historyLabels : [formatShortMonthLabel(appData.activeMonth)],
+          datasets: [{
+            label: "Net Worth",
+            data: historyValues.length ? historyValues : [0],
+            borderColor: "#10b981",
+            backgroundColor: "rgba(16, 185, 129, 0.16)",
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: "#10b981"
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ` Net Worth: ${formatMoney(ctx.raw)}` } }
+          },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { display: false } },
+            y: {
+              ticks: { color: textColor, callback: val => "$" + val.toLocaleString() },
+              grid: { color: gridColor }
+            }
+          }
+        }
+      });
+
+      let assets = 0, liabilities = 0;
+      appData.netWorthItems.forEach(item => {
+        if (item.type === "asset") assets += item.amount;
+        else liabilities += item.amount;
+      });
+
+      if (chartInstances.nwSplit) chartInstances.nwSplit.destroy();
+      chartInstances.nwSplit = new Chart(document.getElementById("nwSplitChartCanvas"), {
+        type: "doughnut",
+        data: {
+          labels: ["Assets", "Liabilities"],
+          datasets: [{
+            data: [assets, liabilities],
+            backgroundColor: ["#10b981", "#ef4444"],
+            borderWidth: 2,
+            borderColor
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "64%",
+          plugins: {
+            legend: { position: "bottom", labels: { color: textColor } },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${formatMoney(ctx.raw)}` } }
+          }
+        }
+      });
+    }
+
+    // --- RENDER EVERYTHING ON SCREEN ---
+    function renderAll() {
+      const activeMonth = appData.activeMonth;
+      const monthData = getActiveMonthData();
+
+      const prettyMonth = formatMonthLabel(activeMonth);
+      document.getElementById("monthDisplayText").innerText = prettyMonth;
+      document.querySelectorAll(".active-month-label").forEach(el => el.innerText = prettyMonth);
+      document.getElementById("todayBtn").style.display =
+        activeMonth === getRealCurrentMonthKey() ? "none" : "inline-block";
+
+      // Previous Month Leftover Banner
+      const prevKey = getPreviousMonthKey(activeMonth);
+      const prevMonth = appData.months[prevKey];
+      const leftoverBanner = document.getElementById("prevMonthLeftoverBanner");
+      if (prevMonth && prevMonth.income > 0) {
+        const prevSpent = prevMonth.transactions.reduce((sum, t) => sum + t.amount, 0);
+        const prevLeftover = prevMonth.income - prevSpent;
+        if (prevLeftover > 0) {
+          leftoverBanner.innerHTML = `
+            <span>💡 <strong>${formatMonthLabel(prevKey)} Leftover:</strong> ${formatMoney(prevLeftover)} unspent last month.</span>
+            <span>Ready to sweep into a Sinking Fund!</span>
+          `;
+          leftoverBanner.style.display = "flex";
+        } else leftoverBanner.style.display = "none";
+      } else leftoverBanner.style.display = "none";
+
+      // 1. Render Grouped Budget & 50/30/20
+      document.getElementById("monthlyIncome").value = monthData.income || "";
+      document.getElementById("displayIncome").innerText = formatMoney(monthData.income);
+
+      let totalPlanned = 0, needs = 0, wants = 0, savings = 0;
+      monthData.budgetItems.forEach(item => {
+        totalPlanned += item.amount;
+        if (item.bucket === "need") needs += item.amount;
+        if (item.bucket === "want") wants += item.amount;
+        if (item.bucket === "savings") savings += item.amount;
+      });
+
+      const container = document.getElementById("groupedBudgetContainer");
+      container.innerHTML = "";
+
+      GROUP_ORDER.forEach(groupName => {
+        const itemsInGroup = monthData.budgetItems.filter(item => item.group === groupName);
+        const groupSubtotal = itemsInGroup.reduce((sum, item) => sum + item.amount, 0);
+
+        let bodyContent = "";
+        if (itemsInGroup.length === 0) {
+          bodyContent = `<div class="empty-drop-hint">Drag an item here to add it to ${groupName}</div>`;
+        } else {
+          let rowsHtml = "";
+          itemsInGroup.forEach(item => {
+            const isAppliedThisMonth = item.lastAppliedMonth === activeMonth;
+            const spent = getSpentForCategory(monthData, item.id);
+            const remaining = item.amount - spent;
+            const pct = item.amount > 0 ? Math.min(100, Math.round((spent / item.amount) * 100)) : (spent > 0 ? 100 : 0);
+
+            let barColor = "var(--primary)";
+            if (remaining < 0) barColor = "var(--red)";
+            else if (pct >= 80) barColor = "var(--amber)";
+
+            const statusLabel = remaining < 0
+              ? `<span class="text-over">${formatMoney(Math.abs(remaining))} over!</span>`
+              : `<span class="text-ok">${formatMoney(remaining)} left</span>`;
+
+            let nwOptions = `<option value="">— Not Linked —</option>`;
+            appData.netWorthItems.forEach(nw => {
+              const selected = item.linkedNwId === nw.id ? "selected" : "";
+              nwOptions += `<option value="${nw.id}" ${selected}>${nw.name}</option>`;
+            });
+
+            let actionControlHtml = "";
+            if (item.linkedNwId) {
+              actionControlHtml = isAppliedThisMonth
+                ? `<span class="applied-tag">✓ Applied</span><button class="undo-btn" onclick="undoPaymentFromNetWorth(${item.id})">Undo</button>`
+                : `<button class="pay-btn" onclick="applyPaymentToNetWorth(${item.id})">Apply</button>`;
+            }
+
+            rowsHtml += `
+              <tr class="draggable-row" draggable="true"
+                  ondragstart="handleDragStart(event, ${item.id})"
+                  ondragend="handleDragEnd(event)">
+                <td><span class="drag-handle">⋮⋮</span><strong>${item.name}</strong></td>
+                <td><span class="badge badge-${item.bucket}">${item.bucket}</span></td>
+                <td>
+                  <input class="inline-input" type="number" value="${item.amount}"
+                         onchange="updateBudgetAmount(${item.id}, this.value)" />
+                </td>
+                <td>
+                  <div class="mini-progress-wrap">
+                    <div class="mini-progress-text">
+                      <span>${formatMoney(spent)} spent</span>
+                      ${statusLabel}
+                    </div>
+                    <div class="mini-bar-track">
+                      <div class="mini-bar-fill" style="width: ${pct}%; background: ${barColor};"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <select class="link-select" ${isAppliedThisMonth ? "disabled" : ""}
+                          onchange="linkBudgetToNetWorth(${item.id}, this.value)">
+                    ${nwOptions}
+                  </select>
+                  ${actionControlHtml}
+                </td>
+                <td style="text-align: right;">
+                  <button class="delete-btn" onclick="deleteBudgetItem(${item.id})">✕</button>
+                </td>
+              </tr>
+            `;
+          });
+          bodyContent = `
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>50/30/20</th>
+                    <th>Planned ($)</th>
+                    <th>Spent vs. Remaining</th>
+                    <th>Link to Net Worth</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+              </table>
+            </div>
+          `;
+        }
+
+        container.innerHTML += `
+          <div class="group-zone"
+               ondragover="handleDragOver(event, this)"
+               ondragleave="handleDragLeave(this)"
+               ondrop="handleDrop(event, '${groupName}', this)">
+            <div class="group-header">
+              <span class="group-title">${groupName}</span>
+              <span class="group-total">${formatMoney(groupSubtotal)}</span>
+            </div>
+            ${bodyContent}
+          </div>
+        `;
+      });
+
+      const leftToBudget = monthData.income - totalPlanned;
+      document.getElementById("displayPlanned").innerText = formatMoney(totalPlanned);
+      const leftEl = document.getElementById("displayLeft");
+      leftEl.innerText = formatMoney(leftToBudget);
+      leftEl.style.color = leftToBudget < 0 ? "#fca5a5" : "#ffffff";
+
+      const base = monthData.income > 0 ? monthData.income : 1;
+      const needPct = Math.round((needs / base) * 100);
+      const wantPct = Math.round((wants / base) * 100);
+      const savPct = Math.round((savings / base) * 100);
+
+      document.getElementById("needStats").innerText = `${needPct}% (${formatMoney(needs)})`;
+      document.getElementById("needBar").style.width = `${Math.min(needPct, 100)}%`;
+      document.getElementById("wantStats").innerText = `${wantPct}% (${formatMoney(wants)})`;
+      document.getElementById("wantBar").style.width = `${Math.min(wantPct, 100)}%`;
+      document.getElementById("savingsStats").innerText = `${savPct}% (${formatMoney(savings)})`;
+      document.getElementById("savingsBar").style.width = `${Math.min(savPct, 100)}%`;
+
+      // 2. Render Transactions Tab
+      const txCategorySelect = document.getElementById("txCategory");
+      const csvCatSelect = document.getElementById("csvDefaultCategory");
+      const prevTxCat = txCategorySelect.value;
+      const prevCsvCat = csvCatSelect.value;
+
+      const catOptionsHtml = monthData.budgetItems
+        .map(item => `<option value="${item.id}">${item.group} — ${item.name}</option>`)
+        .join("");
+
+      txCategorySelect.innerHTML = catOptionsHtml;
+      csvCatSelect.innerHTML = catOptionsHtml;
+      if (prevTxCat && monthData.budgetItems.some(i => String(i.id) === prevTxCat)) txCategorySelect.value = prevTxCat;
+      if (prevCsvCat && monthData.budgetItems.some(i => String(i.id) === prevCsvCat)) csvCatSelect.value = prevCsvCat;
+
+      const totalSpent = monthData.transactions.reduce((sum, t) => sum + t.amount, 0);
+      const totalRemaining = totalPlanned - totalSpent;
+
+      document.getElementById("txTotalPlanned").innerText = formatMoney(totalPlanned);
+      document.getElementById("txTotalSpent").innerText = formatMoney(totalSpent);
+      const txRemEl = document.getElementById("txTotalRemaining");
+      txRemEl.innerText = formatMoney(totalRemaining);
+      txRemEl.style.color = totalRemaining < 0 ? "var(--red)" : "var(--green)";
+
+      const txTbody = document.getElementById("txTableBody");
+      txTbody.innerHTML = "";
+      const sortedTx = [...monthData.transactions].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+
+      if (sortedTx.length === 0) {
+        txTbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--muted); padding: 20px;">No transactions logged for ${prettyMonth} yet.</td></tr>`;
+      } else {
+        sortedTx.forEach(tx => {
+          const rowCatOptions = monthData.budgetItems
+            .map(item => `<option value="${item.id}" ${item.id === tx.budgetItemId ? "selected" : ""}>${item.name} (${item.group})</option>`)
+            .join("");
+          const splitBadge = tx.isSplit ? `<span class="badge badge-split">Split</span>` : "";
+
+          txTbody.innerHTML += `
+            <tr>
+              <td style="color: var(--muted); font-size: 13px;">${tx.date}</td>
+              <td><strong>${tx.merchant}</strong>${splitBadge}</td>
+              <td>
+                <select class="link-select" style="max-width: 210px;" onchange="updateTransactionCategory(${tx.id}, this.value)">
+                  ${rowCatOptions}
+                </select>
+              </td>
+              <td style="font-weight: 600; font-variant-numeric: tabular-nums;">${formatMoney(tx.amount)}</td>
+              <td style="text-align: right;"><button class="delete-btn" onclick="deleteTransaction(${tx.id})">✕</button></td>
+            </tr>
+          `;
+        });
+      }
+
+      // 3. Render Sinking Funds
+      const fundsTbody = document.getElementById("fundsTableBody");
+      fundsTbody.innerHTML = "";
+      appData.sinkingFunds.forEach(fund => {
+        const monthlyNeeded = calculateMonthlyFundNeed(fund.goal, fund.saved, fund.targetDate);
+        fundsTbody.innerHTML += `
+          <tr>
+            <td><strong>${fund.name}</strong></td>
+            <td><input class="inline-input" type="number" value="${fund.saved}" onchange="updateFundField(${fund.id}, 'saved', this.value)" /></td>
+            <td><input class="inline-input" type="number" value="${fund.goal}" onchange="updateFundField(${fund.id}, 'goal', this.value)" /></td>
+            <td>
+              <div class="fund-month-stepper">
+                <button class="fund-month-btn" onclick="stepFundMonth(${fund.id}, -1)">◀</button>
+                <span class="fund-month-label">${formatMonthLabel(fund.targetDate)}</span>
+                <button class="fund-month-btn" onclick="stepFundMonth(${fund.id}, 1)">▶</button>
+              </div>
+            </td>
+            <td style="color: var(--primary); font-weight: 700; font-variant-numeric: tabular-nums;">${formatMoney(monthlyNeeded)} / mo</td>
+            <td><button class="delete-btn" onclick="deleteSinkingFund(${fund.id})">✕</button></td>
+          </tr>
+        `;
+      });
+
+      // 4. Render Monthly Savings
+      let preTaxTotal = 0, postTaxTotal = 0;
+      const savTbody = document.getElementById("savingsTableBody");
+      savTbody.innerHTML = "";
+      appData.savingsStreams.forEach(stream => {
+        if (stream.source === "pretax") preTaxTotal += stream.amount;
+        else postTaxTotal += stream.amount;
+        const badgeLabel = stream.source === "pretax" ? "From Job" : "Take-Home";
+        savTbody.innerHTML += `
+          <tr>
+            <td><strong>${stream.name}</strong></td>
+            <td><span class="badge badge-${stream.source}">${badgeLabel}</span></td>
+            <td><input class="inline-input" type="number" value="${stream.amount}" onchange="updateSavingsAmount(${stream.id}, this.value)" /></td>
+            <td><button class="delete-btn" onclick="deleteSavingsStream(${stream.id})">✕</button></td>
+          </tr>
+        `;
+      });
+
+      document.getElementById("totalPreTaxSavings").innerText = formatMoney(preTaxTotal);
+      document.getElementById("totalPostTaxSavings").innerText = formatMoney(postTaxTotal);
+      document.getElementById("totalAllSavings").innerText = formatMoney(preTaxTotal + postTaxTotal);
+
+      // 5. Render Net Worth
+      let assets = 0, liabilities = 0;
+      const nwTbody = document.getElementById("nwTableBody");
+      nwTbody.innerHTML = "";
+      appData.netWorthItems.forEach(item => {
+        if (item.type === "asset") assets += item.amount;
+        else liabilities += item.amount;
+        nwTbody.innerHTML += `
+          <tr>
+            <td><strong>${item.name}</strong></td>
+            <td>${item.type === "asset" ? "Asset" : "Liability"}</td>
+            <td><input class="inline-input" type="number" value="${item.amount}" onchange="updateNetWorthAmount(${item.id}, this.value)" /></td>
+            <td><button class="delete-btn" onclick="deleteNetWorthItem(${item.id})">✕</button></td>
+          </tr>
+        `;
+      });
+
+      document.getElementById("totalAssets").innerText = formatMoney(assets);
+      document.getElementById("totalLiabilities").innerText = formatMoney(liabilities);
+      document.getElementById("totalNetWorth").innerText = formatMoney(assets - liabilities);
+
+      renderCharts();
+    }
+
+    // Initialize saved theme, date picker, and app
+    const savedTheme = localStorage.getItem("familyFinanceTheme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    document.getElementById("themeToggleBtn").innerText = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark";
+
+    recordNetWorthSnapshot();
+    updateDefaultTxDate();
+    renderAll();
+  </script>
+</body>
+</html>
