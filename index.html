@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <!-- NEW IN V13: Mobile Web App Meta Tags for iPhone/Android Home Screen -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#059669" />
@@ -14,19 +13,18 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* =========================================
-       1. NEW IN V13: EMERALD THEME & DARK MODE VARIABLES
-       Adjust --primary or --hero-start/end to change the green shade!
+       1. EMERALD THEME & DARK MODE VARIABLES
        ========================================= */
     :root {
-      --primary: #059669;         /* EveryDollar-style Emerald Green */
+      --primary: #059669;
       --primary-hover: #047857;
       --primary-soft: #ecfdf5;
       --primary-border: #a7f3d0;
 
-      --hero-start: #065f46;      /* Deep Forest Green */
-      --hero-end: #10b981;        /* Vibrant Emerald */
+      --hero-start: #065f46;
+      --hero-end: #10b981;
 
-      --bg: #f3f6f4;              /* Subtle mint-tinted off-white */
+      --bg: #f3f6f4;
       --card: #ffffff;
       --surface: #f8faf9;
       --border: #e2e8e5;
@@ -57,7 +55,6 @@
       --shadow-md: 0 8px 24px rgba(6, 78, 59, 0.10);
     }
 
-    /* Dark Mode Palette */
     [data-theme="dark"] {
       --primary: #10b981;
       --primary-hover: #34d399;
@@ -67,7 +64,7 @@
       --hero-start: #064e3b;
       --hero-end: #047857;
 
-      --bg: #0b1210;              /* Deep charcoal-emerald */
+      --bg: #0b1210;
       --card: #131f1c;
       --surface: #192824;
       --border: #243832;
@@ -105,7 +102,7 @@
       background-color: var(--bg);
       color: var(--text);
       margin: 0;
-      padding: 24px 18px 70px;
+      padding: 24px 18px 90px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       transition: background-color 0.25s ease, color 0.25s ease;
@@ -118,15 +115,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 14px;
     }
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand-wrap { display: flex; align-items: center; gap: 12px; }
     .brand-icon {
       width: 42px;
       height: 42px;
@@ -141,26 +134,11 @@
       box-shadow: 0 4px 12px rgba(5, 150, 105, 0.28);
       flex-shrink: 0;
     }
-    .app-title {
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      margin: 0;
-    }
-    .app-subtitle {
-      font-size: 12.5px;
-      color: var(--muted);
-      margin: 1px 0 0;
-    }
+    .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; margin: 0; }
+    .app-subtitle { font-size: 12.5px; color: var(--muted); margin: 1px 0 0; }
 
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .header-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-    /* Dark Mode Toggle Button */
     .theme-toggle-btn {
       font-family: inherit;
       display: inline-flex;
@@ -177,12 +155,8 @@
       box-shadow: var(--shadow-sm);
       transition: all 0.15s;
     }
-    .theme-toggle-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
+    .theme-toggle-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-    /* Human-Readable Month Switcher */
     .month-switcher {
       display: flex;
       align-items: center;
@@ -208,19 +182,8 @@
       justify-content: center;
       transition: all 0.15s;
     }
-    .month-nav-btn:hover {
-      background: var(--primary-soft);
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-    .month-display-text {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      min-width: 135px;
-      text-align: center;
-      user-select: none;
-    }
+    .month-nav-btn:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+    .month-display-text { font-size: 14px; font-weight: 700; color: var(--text); min-width: 135px; text-align: center; user-select: none; }
     .today-btn {
       font-family: inherit;
       font-size: 12px;
@@ -233,40 +196,87 @@
       cursor: pointer;
     }
 
-    /* Segmented Pill Navigation */
-    .tabs {
+    /* =========================================
+       NEW IN V14: EVERYDOLLAR-STYLE ICON NAV BAR
+       Compact icon bar on desktop, fixed bottom dock on mobile!
+       ========================================= */
+    .icon-nav {
       display: flex;
-      gap: 6px;
+      justify-content: center;
+      gap: 10px;
       background: var(--card);
-      padding: 6px;
-      border-radius: 14px;
+      padding: 8px 12px;
+      border-radius: 16px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
       margin-bottom: 22px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
     }
-    .tab-btn {
+    .nav-item {
       flex: 1;
-      min-width: 120px;
-      padding: 10px 14px;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 600;
+      max-width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 10px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       background: transparent;
       color: var(--muted);
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
     }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active {
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.18s ease;
+    }
+    .nav-item:hover { color: var(--text); background: var(--surface); }
+    .nav-item.active {
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+    .nav-item.active svg { transform: translateY(-1px); }
+
+    /* NEW IN V14: Sub-Navigation Pills inside the Accounts tab */
+    .sub-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--card);
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .sub-tab-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sub-tab-btn.active {
       background: var(--primary);
       color: #ffffff;
-      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.28);
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
     }
+    .sub-section { display: none; }
+    .sub-section.active { display: block; animation: fadeIn 0.2s ease; }
 
     .section { display: none; }
     .section.active { display: block; animation: fadeIn 0.22s ease; }
@@ -275,7 +285,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Cards & NEW Emerald Hero Card */
+    /* Cards & Emerald Hero Card */
     .card {
       background: var(--card);
       padding: 22px;
@@ -294,13 +304,7 @@
       box-shadow: var(--shadow-md);
       margin-bottom: 20px;
     }
-    .hero-card h2 {
-      color: #ffffff;
-      margin: 0 0 12px;
-      font-size: 16px;
-      font-weight: 600;
-      opacity: 0.95;
-    }
+    .hero-card h2 { color: #ffffff; margin: 0 0 12px; font-size: 16px; font-weight: 600; opacity: 0.95; }
     .hero-income-input {
       background: rgba(255, 255, 255, 0.16) !important;
       border: 1px solid rgba(255, 255, 255, 0.32) !important;
@@ -318,7 +322,7 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 14px;
       margin-top: 16px;
     }
@@ -330,30 +334,11 @@
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.18);
     }
-    .hero-stat-label {
-      font-size: 11.5px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.82);
-    }
-    .hero-stat-value {
-      font-size: 26px;
-      font-weight: 800;
-      margin-top: 4px;
-      letter-spacing: -0.02em;
-      font-variant-numeric: tabular-nums;
-      color: #ffffff;
-    }
+    .hero-stat-label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: rgba(255, 255, 255, 0.82); }
+    .hero-stat-value { font-size: 25px; font-weight: 800; margin-top: 4px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: #ffffff; }
 
-    h2 {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      margin: 0 0 14px;
-    }
+    h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 14px; }
 
-    /* Previous Month Leftover Banner inside Hero */
     .leftover-banner {
       display: flex;
       justify-content: space-between;
@@ -369,33 +354,15 @@
       font-size: 13px;
     }
 
-    /* Standard Summary Boxes */
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
       gap: 14px;
       margin-top: 14px;
     }
-    .stat-box {
-      background: var(--surface);
-      padding: 16px 18px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-    }
-    .stat-label {
-      font-size: 11.5px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-    }
-    .stat-value {
-      font-size: 25px;
-      font-weight: 800;
-      margin-top: 5px;
-      letter-spacing: -0.02em;
-      font-variant-numeric: tabular-nums;
-    }
+    .stat-box { background: var(--surface); padding: 16px 18px; border-radius: 14px; border: 1px solid var(--border); }
+    .stat-label { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .stat-value { font-size: 25px; font-weight: 800; margin-top: 5px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 
     /* Fast-Track & Split Panels */
     .fast-track-bar {
@@ -433,84 +400,29 @@
       padding: 16px;
       margin-bottom: 16px;
     }
-    .split-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .split-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+    .split-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
+    .split-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; flex-wrap: wrap; }
 
-    /* Charts Grid */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 20px;
-    }
+    .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
     .chart-box { position: relative; height: 280px; width: 100%; }
 
     /* 50/30/20 Progress Bars */
     .bar-group { margin-bottom: 16px; }
     .bar-group:last-child { margin-bottom: 0; }
-    .bar-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin-bottom: 6px;
-      font-variant-numeric: tabular-nums;
-    }
-    .bar-track {
-      background: var(--border);
-      height: 10px;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .bar-header { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+    .bar-track { background: var(--border); height: 10px; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 999px; transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    /* Spent vs. Remaining Progress Bars */
     .mini-progress-wrap { min-width: 150px; }
-    .mini-progress-text {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 4px;
-      font-variant-numeric: tabular-nums;
-    }
-    .mini-bar-track {
-      background: var(--border);
-      height: 6px;
-      border-radius: 999px;
-      overflow: hidden;
-    }
+    .mini-progress-text { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+    .mini-bar-track { background: var(--border); height: 6px; border-radius: 999px; overflow: hidden; }
     .mini-bar-fill { height: 100%; border-radius: 999px; transition: width 0.3s ease; }
     .text-over { color: var(--red); font-weight: 700; }
     .text-ok { color: var(--muted); }
 
-    /* Drop Zone Containers */
-    .group-zone {
-      border: 2px solid transparent;
-      border-radius: 14px;
-      padding: 6px;
-      margin-top: 16px;
-      transition: background-color 0.2s, border-color 0.2s;
-    }
-    .group-zone.drag-over {
-      background-color: var(--primary-soft);
-      border: 2px dashed var(--primary);
-    }
+    /* Drop Zones */
+    .group-zone { border: 2px solid transparent; border-radius: 14px; padding: 6px; margin-top: 16px; transition: background-color 0.2s, border-color 0.2s; }
+    .group-zone.drag-over { background-color: var(--primary-soft); border: 2px dashed var(--primary); }
     .group-header {
       display: flex;
       justify-content: space-between;
@@ -523,14 +435,8 @@
       margin-bottom: 8px;
     }
     .group-title { font-size: 14px; font-weight: 700; color: var(--text); }
-    .group-total {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--primary);
-      font-variant-numeric: tabular-nums;
-    }
+    .group-total { font-size: 14px; font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
 
-    /* Draggable Rows */
     tr.draggable-row { cursor: grab; background: var(--card); transition: background-color 0.15s; }
     tr.draggable-row:hover { background-color: var(--surface); }
     tr.draggable-row:active { cursor: grabbing; }
@@ -538,183 +444,61 @@
     .drag-handle { color: var(--muted); opacity: 0.45; font-size: 15px; margin-right: 8px; user-select: none; }
     tr.draggable-row:hover .drag-handle { opacity: 1; }
 
-    .empty-drop-hint {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      padding: 16px;
-      border: 1px dashed var(--border);
-      border-radius: 10px;
-      margin-top: 4px;
-    }
+    .empty-drop-hint { text-align: center; color: var(--muted); font-size: 13px; padding: 16px; border: 1px dashed var(--border); border-radius: 10px; margin-top: 4px; }
 
-    /* Compact Month Stepper inside Sinking Fund rows */
-    .fund-month-stepper {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--surface);
-      padding: 4px 6px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
+    .fund-month-stepper { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); padding: 4px 6px; border-radius: 8px; border: 1px solid var(--border); }
     .fund-month-btn {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      width: 26px; height: 26px; border-radius: 6px; font-size: 11px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
     .fund-month-btn:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
     .fund-month-label { font-size: 13px; font-weight: 600; min-width: 115px; text-align: center; }
 
-    /* Forms, Inputs & Focus Rings */
     .form-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; align-items: center; }
     input, select {
-      font-family: inherit;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 14px;
-      color: var(--text);
-      background: var(--surface);
-      flex: 1;
-      min-width: 115px;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit; padding: 10px 12px; border: 1px solid var(--border);
+      border-radius: 10px; font-size: 14px; color: var(--text); background: var(--surface);
+      flex: 1; min-width: 115px; transition: border-color 0.15s, box-shadow 0.15s;
     }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-soft);
-    }
-    .inline-input {
-      width: 98px;
-      padding: 7px 9px;
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      background: var(--card);
-    }
-    .link-select {
-      padding: 7px 9px;
-      font-size: 13px;
-      max-width: 155px;
-      background: var(--card);
-    }
+    input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+    .inline-input { width: 98px; padding: 7px 9px; font-weight: 600; font-variant-numeric: tabular-nums; background: var(--card); }
+    .link-select { padding: 7px 9px; font-size: 13px; max-width: 155px; background: var(--card); }
 
-    /* Buttons */
     button.action-btn {
-      font-family: inherit;
-      padding: 10px 18px;
-      background: var(--primary);
-      color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.22);
-      transition: background-color 0.15s, transform 0.1s;
+      font-family: inherit; padding: 10px 18px; background: var(--primary); color: #ffffff;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.22); transition: background-color 0.15s, transform 0.1s;
     }
     button.action-btn:hover { background: var(--primary-hover); }
     button.action-btn:active { transform: scale(0.98); }
 
     button.secondary-btn {
-      font-family: inherit;
-      padding: 9px 14px;
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
+      font-family: inherit; padding: 9px 14px; background: var(--surface); color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
     }
     button.secondary-btn:hover { border-color: var(--primary); color: var(--primary); }
 
     .pay-btn {
-      font-family: inherit;
-      padding: 6px 11px;
-      background: var(--primary);
-      color: #ffffff;
-      border: none;
-      border-radius: 7px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-left: 5px;
+      font-family: inherit; padding: 6px 11px; background: var(--primary); color: #ffffff;
+      border: none; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 5px;
     }
     .pay-btn:hover { background: var(--primary-hover); }
 
-    .applied-tag {
-      display: inline-block;
-      padding: 5px 8px;
-      background: var(--green-bg);
-      color: var(--green-text);
-      border-radius: 7px;
-      font-size: 11px;
-      font-weight: 700;
-      margin-left: 5px;
-    }
-    .undo-btn {
-      font-family: inherit;
-      padding: 5px 8px;
-      background: var(--surface);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-left: 4px;
-    }
+    .applied-tag { display: inline-block; padding: 5px 8px; background: var(--green-bg); color: var(--green-text); border-radius: 7px; font-size: 11px; font-weight: 700; margin-left: 5px; }
+    .undo-btn { font-family: inherit; padding: 5px 8px; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 7px; font-size: 11px; font-weight: 600; cursor: pointer; margin-left: 4px; }
     .undo-btn:hover { color: var(--text); border-color: var(--muted); }
 
-    button.delete-btn {
-      background: none;
-      border: none;
-      color: var(--muted);
-      opacity: 0.55;
-      cursor: pointer;
-      font-size: 15px;
-      padding: 5px 8px;
-      border-radius: 7px;
-      transition: all 0.15s;
-    }
+    button.delete-btn { background: none; border: none; color: var(--muted); opacity: 0.55; cursor: pointer; font-size: 15px; padding: 5px 8px; border-radius: 7px; transition: all 0.15s; }
     button.delete-btn:hover { opacity: 1; color: var(--red); background: var(--red-bg); }
 
-    /* NEW IN V13: Swipeable Table Wrapper for Mobile */
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+    .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; margin-top: 4px; min-width: 580px; }
     th, td { text-align: left; padding: 11px 8px; border-bottom: 1px solid var(--border); }
-    th {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-    }
+    th { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
 
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
     .badge-need { background: var(--blue-bg); color: var(--blue-text); }
     .badge-want { background: var(--amber-bg); color: var(--amber-text); }
     .badge-savings { background: var(--green-bg); color: var(--green-text); }
@@ -725,10 +509,10 @@
     .helper-text { color: var(--muted); font-size: 13px; margin: -8px 0 16px; }
 
     /* =========================================
-       NEW IN V13: MOBILE RESPONSIVE STYLES
+       MOBILE RESPONSIVE + FIXED BOTTOM APP BAR
        ========================================= */
-    @media (max-width: 720px) {
-      body { padding: 16px 12px 60px; }
+    @media (max-width: 768px) {
+      body { padding: 16px 12px 105px; }
       .card, .hero-card { padding: 18px 16px; border-radius: 16px; }
       .app-header { flex-direction: column; align-items: stretch; }
       .header-controls { justify-content: space-between; }
@@ -737,6 +521,24 @@
       .form-row { flex-direction: column; align-items: stretch; }
       .form-row input, .form-row select, .form-row button { width: 100%; max-width: none !important; }
       .charts-grid { grid-template-columns: 1fr; }
+
+      /* Docks the 4 icon buttons to the bottom of your iPhone like EveryDollar */
+      .icon-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        margin-bottom: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+        box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+      }
+      .nav-item { max-width: none; padding: 6px 4px; font-size: 11px; }
+      .nav-item.active { background: transparent; }
     }
   </style>
 </head>
@@ -752,7 +554,6 @@
       </div>
 
       <div class="header-controls">
-        <!-- NEW IN V13: Dark Mode Toggle -->
         <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Dark</button>
 
         <div class="month-switcher">
@@ -764,21 +565,57 @@
       </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('budget', this)">Budget</button>
-      <button class="tab-btn" onclick="switchTab('transactions', this)">Transactions</button>
-      <button class="tab-btn" onclick="switchTab('charts', this)">Charts</button>
-      <button class="tab-btn" onclick="switchTab('funds', this)">Sinking Funds</button>
-      <button class="tab-btn" onclick="switchTab('savings', this)">Monthly Savings</button>
-      <button class="tab-btn" onclick="switchTab('networth', this)">Net Worth</button>
-    </div>
+    <!-- NEW IN V14: 4-Button EveryDollar-Style Icon Navigation -->
+    <nav class="icon-nav">
+      <!-- 1. Budget (Money Stack Icon) -->
+      <button class="nav-item active" onclick="switchTab('budget', this)">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+          <circle cx="12" cy="12" r="2.5"></circle>
+          <path d="M6 12h.01M18 12h.01"></path>
+          <path d="M5 3h14M5 21h14" opacity="0.5"></path>
+        </svg>
+        <span>Budget</span>
+      </button>
+
+      <!-- 2. Transactions (Arrows / Receipt Icon) -->
+      <button class="nav-item" onclick="switchTab('transactions', this)">
+        <svg viewBox="0 0 24 24">
+          <path d="M7 10l5-5 5 5"></path>
+          <path d="M12 5v10"></path>
+          <path d="M17 14l-5 5-5-5"></path>
+          <path d="M12 19V9" opacity="0.4"></path>
+        </svg>
+        <span>Transactions</span>
+      </button>
+
+      <!-- 3. Accounts (Bank / Vault Icon) -->
+      <button class="nav-item" onclick="switchTab('accounts', this)">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 10h18"></path>
+          <path d="M5 10v8M9 10v8M15 10v8M19 10v8"></path>
+          <path d="M3 18h18"></path>
+          <path d="M12 3L3 10h18L12 3z"></path>
+        </svg>
+        <span>Accounts</span>
+      </button>
+
+      <!-- 4. Insights (Charts Icon) -->
+      <button class="nav-item" onclick="switchTab('insights', this)">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 3v18h18"></path>
+          <path d="M7 16v-4"></path>
+          <path d="M12 16V8"></path>
+          <path d="M17 16v-6"></path>
+        </svg>
+        <span>Insights</span>
+      </button>
+    </nav>
 
     <!-- =========================================
-         TAB 1: ZERO-BASED BUDGET & 50/30/20 RULE
+         VIEW 1: BUDGET (ZERO-BASED + 50/30/20)
          ========================================= -->
     <div id="budget" class="section active">
-      <!-- NEW IN V13: Emerald Gradient Hero Card -->
       <div class="hero-card">
         <h2>Monthly Take-Home Income · <span class="active-month-label"></span></h2>
         <div class="form-row" style="margin-bottom: 0;">
@@ -801,7 +638,6 @@
         <div id="prevMonthLeftoverBanner" class="leftover-banner" style="display: none;"></div>
       </div>
 
-      <!-- 50/30/20 Split Dashboard -->
       <div class="card">
         <h2>50 / 30 / 20 Breakdown</h2>
         <div class="bar-group">
@@ -827,7 +663,6 @@
         </div>
       </div>
 
-      <!-- Grouped Budget Categories -->
       <div class="card">
         <h2>Budget Categories (<span class="active-month-label"></span>)</h2>
         <p class="helper-text">
@@ -857,7 +692,7 @@
     </div>
 
     <!-- =========================================
-         TAB 2: TRANSACTIONS + FAST-TRACK + SPLIT + CSV IMPORT
+         VIEW 2: TRANSACTIONS
          ========================================= -->
     <div id="transactions" class="section">
       <div class="card">
@@ -945,9 +780,185 @@
     </div>
 
     <!-- =========================================
-         TAB 3: INTERACTIVE CHARTS
+         VIEW 3: ACCOUNTS (NET WORTH + SINKING FUNDS + MONTHLY SAVINGS)
          ========================================= -->
-    <div id="charts" class="section">
+    <div id="accounts" class="section">
+      <!-- Sub-menu to keep the bottom bar clean with 4 icons -->
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="switchAccountSubTab('sub-networth', this)">Net Worth</button>
+        <button class="sub-tab-btn" onclick="switchAccountSubTab('sub-funds', this)">Sinking Funds</button>
+        <button class="sub-tab-btn" onclick="switchAccountSubTab('sub-savings', this)">Monthly Savings</button>
+      </div>
+
+      <!-- Sub-Tab A: Net Worth -->
+      <div id="sub-networth" class="sub-section active">
+        <div class="charts-grid">
+          <div class="card" style="margin-bottom: 0;">
+            <h2>Net Worth Over Time</h2>
+            <p class="helper-text">Saves a snapshot for each month automatically as you update balances.</p>
+            <div class="chart-box">
+              <canvas id="nwHistoryChartCanvas"></canvas>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom: 0;">
+            <h2>Assets vs. Liabilities</h2>
+            <p class="helper-text">Visual breakdown of what you own versus what you owe.</p>
+            <div class="chart-box">
+              <canvas id="nwSplitChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Net Worth Accounts</h2>
+          <div class="summary-grid" style="margin-bottom: 20px;">
+            <div class="stat-box">
+              <div class="stat-label">Total Assets</div>
+              <div class="stat-value" style="color: var(--green);" id="totalAssets">$0.00</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Total Liabilities</div>
+              <div class="stat-value" style="color: var(--red);" id="totalLiabilities">$0.00</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Net Worth</div>
+              <div class="stat-value" id="totalNetWorth">$0.00</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <input type="text" id="nwName" placeholder="Account (e.g., Car Loan, Mortgage, Home Value)" />
+            <input type="number" id="nwAmount" placeholder="Current Balance ($)" />
+            <select id="nwType">
+              <option value="asset">Asset (What you own)</option>
+              <option value="liability">Liability (What you owe)</option>
+            </select>
+            <button class="action-btn" onclick="addNetWorthItem()">Add</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Type</th>
+                  <th>Current Balance ($)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="nwTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-Tab B: Sinking Funds -->
+      <div id="sub-funds" class="sub-section">
+        <div class="card">
+          <h2>Stuff We Are Saving For (Sinking Funds)</h2>
+          <p class="helper-text">
+            Shared across all months. Pick a target month and year—the monthly amount calculates automatically.
+          </p>
+          <div class="form-row">
+            <input type="text" id="fundName" placeholder="New Fund Name" />
+            <input type="number" id="fundGoal" placeholder="Target Goal ($)" />
+            <input type="number" id="fundSaved" placeholder="Already Saved ($)" value="0" />
+            <select id="fundMonth">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12" selected>December</option>
+            </select>
+            <select id="fundYear" style="max-width: 110px;">
+              <option value="2026">2026</option>
+              <option value="2027" selected>2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+              <option value="2031">2031</option>
+              <option value="2032">2032</option>
+            </select>
+            <button class="action-btn" onclick="addSinkingFund()">Add Fund</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fund Name</th>
+                  <th>Saved ($)</th>
+                  <th>Goal ($)</th>
+                  <th>Target Month</th>
+                  <th>Monthly Needed</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="fundsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-Tab C: True Monthly Savings -->
+      <div id="sub-savings" class="sub-section">
+        <div class="card">
+          <h2>True Monthly Savings</h2>
+          <p class="helper-text">
+            Track both money saved automatically from your paycheck and money transferred from take-home pay (like Fidelity SGOV).
+          </p>
+          <div class="summary-grid" style="margin-bottom: 20px;">
+            <div class="stat-box">
+              <div class="stat-label">From Job (Pre-Tax)</div>
+              <div class="stat-value" style="color: var(--purple);" id="totalPreTaxSavings">$0.00</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">From Take-Home Pay</div>
+              <div class="stat-value" style="color: var(--green);" id="totalPostTaxSavings">$0.00</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Total Saved / Month</div>
+              <div class="stat-value" style="color: var(--primary);" id="totalAllSavings">$0.00</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <input type="text" id="savName" placeholder="Account / Destination (e.g., Roth IRA, 529)" />
+            <input type="number" id="savAmount" placeholder="Monthly Amount ($)" />
+            <select id="savSource">
+              <option value="pretax">From Job (Pre-Tax / Payroll)</option>
+              <option value="posttax">From Take-Home Pay</option>
+            </select>
+            <button class="action-btn" onclick="addSavingsStream()">Add</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Destination / Purpose</th>
+                  <th>Source</th>
+                  <th>Monthly Amount ($)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="savingsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         VIEW 4: INSIGHTS (INTERACTIVE CHARTS)
+         ========================================= -->
+    <div id="insights" class="section">
       <div class="charts-grid">
         <div class="card" style="margin-bottom: 0;">
           <h2>50 / 30 / 20 Split (<span class="active-month-label"></span>)</h2>
@@ -963,176 +974,6 @@
           <div class="chart-box">
             <canvas id="groupCompareChartCanvas"></canvas>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- =========================================
-         TAB 4: AUTO-CALCULATED SINKING FUNDS
-         ========================================= -->
-    <div id="funds" class="section">
-      <div class="card">
-        <h2>Stuff We Are Saving For</h2>
-        <p class="helper-text">
-          Shared across all months. Pick a target month and year—the monthly amount calculates automatically.
-        </p>
-        <div class="form-row">
-          <input type="text" id="fundName" placeholder="New Fund Name" />
-          <input type="number" id="fundGoal" placeholder="Target Goal ($)" />
-          <input type="number" id="fundSaved" placeholder="Already Saved ($)" value="0" />
-          <select id="fundMonth">
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">June</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
-            <option value="09">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12" selected>December</option>
-          </select>
-          <select id="fundYear" style="max-width: 110px;">
-            <option value="2026">2026</option>
-            <option value="2027" selected>2027</option>
-            <option value="2028">2028</option>
-            <option value="2029">2029</option>
-            <option value="2030">2030</option>
-            <option value="2031">2031</option>
-            <option value="2032">2032</option>
-          </select>
-          <button class="action-btn" onclick="addSinkingFund()">Add Fund</button>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Fund Name</th>
-                <th>Saved ($)</th>
-                <th>Goal ($)</th>
-                <th>Target Month</th>
-                <th>Monthly Needed</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="fundsTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- =========================================
-         TAB 5: TRUE MONTHLY SAVINGS TRACKER
-         ========================================= -->
-    <div id="savings" class="section">
-      <div class="card">
-        <h2>True Monthly Savings</h2>
-        <p class="helper-text">
-          Track both money saved automatically from your paycheck and money transferred from take-home pay (like Fidelity SGOV).
-        </p>
-        <div class="summary-grid" style="margin-bottom: 20px;">
-          <div class="stat-box">
-            <div class="stat-label">From Job (Pre-Tax)</div>
-            <div class="stat-value" style="color: var(--purple);" id="totalPreTaxSavings">$0.00</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">From Take-Home Pay</div>
-            <div class="stat-value" style="color: var(--green);" id="totalPostTaxSavings">$0.00</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">Total Saved / Month</div>
-            <div class="stat-value" style="color: var(--primary);" id="totalAllSavings">$0.00</div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <input type="text" id="savName" placeholder="Account / Destination (e.g., Roth IRA, 529)" />
-          <input type="number" id="savAmount" placeholder="Monthly Amount ($)" />
-          <select id="savSource">
-            <option value="pretax">From Job (Pre-Tax / Payroll)</option>
-            <option value="posttax">From Take-Home Pay</option>
-          </select>
-          <button class="action-btn" onclick="addSavingsStream()">Add</button>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Destination / Purpose</th>
-                <th>Source</th>
-                <th>Monthly Amount ($)</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="savingsTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- =========================================
-         TAB 6: NET WORTH CALCULATOR + CHARTS
-         ========================================= -->
-    <div id="networth" class="section">
-      <div class="charts-grid">
-        <div class="card" style="margin-bottom: 0;">
-          <h2>Net Worth Over Time</h2>
-          <p class="helper-text">Saves a snapshot for each month automatically as you update balances.</p>
-          <div class="chart-box">
-            <canvas id="nwHistoryChartCanvas"></canvas>
-          </div>
-        </div>
-        <div class="card" style="margin-bottom: 0;">
-          <h2>Assets vs. Liabilities</h2>
-          <p class="helper-text">Visual breakdown of what you own versus what you owe.</p>
-          <div class="chart-box">
-            <canvas id="nwSplitChartCanvas"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Net Worth Accounts</h2>
-        <div class="summary-grid" style="margin-bottom: 20px;">
-          <div class="stat-box">
-            <div class="stat-label">Total Assets</div>
-            <div class="stat-value" style="color: var(--green);" id="totalAssets">$0.00</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">Total Liabilities</div>
-            <div class="stat-value" style="color: var(--red);" id="totalLiabilities">$0.00</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">Net Worth</div>
-            <div class="stat-value" id="totalNetWorth">$0.00</div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <input type="text" id="nwName" placeholder="Account (e.g., Car Loan, Mortgage, Home Value)" />
-          <input type="number" id="nwAmount" placeholder="Current Balance ($)" />
-          <select id="nwType">
-            <option value="asset">Asset (What you own)</option>
-            <option value="liability">Liability (What you owe)</option>
-          </select>
-          <button class="action-btn" onclick="addNetWorthItem()">Add</button>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Account</th>
-                <th>Type</th>
-                <th>Current Balance ($)</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="nwTableBody"></tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -1161,13 +1002,12 @@
     let currentFastTrackCatId = null;
     let isSplitMode = false;
 
-    // --- NEW IN V13: DARK MODE THEME LOGIC ---
     function applyTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
       localStorage.setItem("familyFinanceTheme", theme);
       const btn = document.getElementById("themeToggleBtn");
       if (btn) btn.innerText = theme === "dark" ? "☀️ Light" : "🌙 Dark";
-      renderCharts(); // Re-color charts to match dark/light mode
+      renderCharts();
     }
 
     function toggleTheme() {
@@ -1345,12 +1185,23 @@
       return "$" + Number(num || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
+    // NEW IN V14: Switch main 4 icon tabs
     function switchTab(tabId, btnElement) {
       document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
       document.getElementById(tabId).classList.add("active");
       btnElement.classList.add("active");
-      if (tabId === "charts" || tabId === "networth") renderCharts();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (tabId === "insights" || tabId === "accounts") renderCharts();
+    }
+
+    // NEW IN V14: Switch sub-tabs inside Accounts (Net Worth / Sinking Funds / Monthly Savings)
+    function switchAccountSubTab(subId, btnElement) {
+      document.querySelectorAll(".sub-section").forEach(sec => sec.classList.remove("active"));
+      document.querySelectorAll(".sub-tab-btn").forEach(btn => btn.classList.remove("active"));
+      document.getElementById(subId).classList.add("active");
+      btnElement.classList.add("active");
+      if (subId === "sub-networth") renderCharts();
     }
 
     // --- DRAG AND DROP HANDLERS ---
@@ -1440,7 +1291,7 @@
       saveData();
     }
 
-    // --- TAB 1: BUDGET FUNCTIONS ---
+    // --- BUDGET FUNCTIONS ---
     function updateIncome() {
       const monthData = getActiveMonthData();
       monthData.income = parseFloat(document.getElementById("monthlyIncome").value) || 0;
@@ -1467,10 +1318,7 @@
     function updateBudgetAmount(id, newValue) {
       const monthData = getActiveMonthData();
       const item = monthData.budgetItems.find(i => i.id === id);
-      if (item) {
-        item.amount = parseFloat(newValue) || 0;
-        saveData();
-      }
+      if (item) { item.amount = parseFloat(newValue) || 0; saveData(); }
     }
 
     function deleteBudgetItem(id) {
@@ -1968,7 +1816,6 @@
       document.getElementById("todayBtn").style.display =
         activeMonth === getRealCurrentMonthKey() ? "none" : "inline-block";
 
-      // Previous Month Leftover Banner
       const prevKey = getPreviousMonthKey(activeMonth);
       const prevMonth = appData.months[prevKey];
       const leftoverBanner = document.getElementById("prevMonthLeftoverBanner");
@@ -2242,7 +2089,6 @@
       renderCharts();
     }
 
-    // Initialize saved theme, date picker, and app
     const savedTheme = localStorage.getItem("familyFinanceTheme") || "light";
     document.documentElement.setAttribute("data-theme", savedTheme);
     document.getElementById("themeToggleBtn").innerText = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark";
